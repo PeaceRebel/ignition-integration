@@ -1,6 +1,10 @@
 FROM quay.io/fedora/fedora-bootc
 RUN dnf install -y ignition ignition-grub
 
+# Copy mods for ostreem
+RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-ostree
+COPY ./40ignition-ostree/* /usr/lib/dracut/modules.d/40ignition-ostree
+
 RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
 # regenerate the initramfs
 RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
