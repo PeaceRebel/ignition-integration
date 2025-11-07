@@ -1,0 +1,6 @@
+FROM quay.io/fedora/fedora-bootc
+RUN dnf install -y ignition ignition-grub
+
+RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
+# regenerate the initramfs
+RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"

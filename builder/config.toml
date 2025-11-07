@@ -1,0 +1,2 @@
+[customizations.kernel]
+append = "ignition.firstboot ignition.platform.id=qemu"
