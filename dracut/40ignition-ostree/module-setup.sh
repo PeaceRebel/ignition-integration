@@ -9,7 +9,7 @@ check() {
 }
 
 depends() {
-    echo ignition
+    echo ignition rdcore
 }
 
 install_ignition_unit() {
@@ -36,13 +36,50 @@ install() {
         sort \
         xfs_info \
         xfs_spaceman \
-        uniq
+        uniq \
+        lsof \
+        fuser
 
     if [[ $(uname -m) = s390x ]]; then
         # for Secure Execution
         inst_multiple \
             veritysetup
     fi
+
+    # ignition-ostree-growfs deps
+    inst_multiple  \
+        basename   \
+        blkid      \
+        blockdev   \
+        cat        \
+        dirname    \
+        findmnt    \
+        growpart   \
+        realpath   \
+        resize2fs  \
+        tail       \
+        tune2fs    \
+        touch      \
+        xfs_admin  \
+        xfs_growfs \
+        wc         \
+        wipefs
+
+    # growpart deps
+    # Mostly generated from the following command:
+    #   $ bash --rpm-requires /usr/bin/growpart | sort | uniq | grep executable
+    # with a few false positives (rq, rqe, -v) and one missed (mktemp)
+    inst_multiple \
+        awk       \
+        cat       \
+        dd        \
+        grep      \
+        mktemp    \
+        partx     \
+        rm        \
+        sed       \
+        sfdisk    \
+        find
 
     # In some cases we had to vendor gdisk in Ignition.
     # If this is the case here use that one.
