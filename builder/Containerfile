@@ -1,9 +1,13 @@
-FROM quay.io/fedora/fedora-bootc
+FROM quay.io/fedora/fedora-bootc:42
 RUN dnf install -y ignition ignition-grub
 
-# Copy mods for ostreem
+# Copy mods for ostree
 RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-ostree
-COPY ./40ignition-ostree/* /usr/lib/dracut/modules.d/40ignition-ostree
+COPY ../dracut/40ignition-ostree/* /usr/lib/dracut/modules.d/40ignition-ostree
+
+#Copy rdcore
+RUN mkdir -p /usr/lib/dracut/modules.d/50rdcore
+COPY ../dracut/50rdcore/* /usr/lib/dracut/modules.d/50rdcore
 
 RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
 # regenerate the initramfs
