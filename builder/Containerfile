@@ -5,6 +5,10 @@ RUN dnf install -y ignition ignition-grub
 RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-ostree
 COPY ../dracut/40ignition-ostree/* /usr/lib/dracut/modules.d/40ignition-ostree
 
+#copy ignition conf
+RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-conf
+COPY ../dracut/40ignition-conf/* /usr/lib/dracut/modules.d/40ignition-conf
+
 #Copy rdcore
 RUN mkdir -p /usr/lib/dracut/modules.d/50rdcore
 COPY ../dracut/50rdcore/* /usr/lib/dracut/modules.d/50rdcore
