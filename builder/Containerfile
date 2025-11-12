@@ -13,6 +13,8 @@ COPY ../dracut/40ignition-conf/* /usr/lib/dracut/modules.d/40ignition-conf
 RUN mkdir -p /usr/lib/dracut/modules.d/50rdcore
 COPY ../dracut/50rdcore/* /usr/lib/dracut/modules.d/50rdcore
 
+COPY ../dracut/dracut.conf.d/60-coreos-omits.conf /usr/lib/dracut/dracut.conf.d/
+
 RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
 # regenerate the initramfs
 RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
