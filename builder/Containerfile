@@ -13,8 +13,15 @@ COPY ../dracut/40ignition-conf/* /usr/lib/dracut/modules.d/40ignition-conf
 RUN mkdir -p /usr/lib/dracut/modules.d/50rdcore
 COPY ../dracut/50rdcore/* /usr/lib/dracut/modules.d/50rdcore
 
+# Copy dracut conf
 COPY ../dracut/dracut.conf.d/60-coreos-omits.conf /usr/lib/dracut/dracut.conf.d/
 
+# Make /opt and /usr/local symlinks.
+COPY ../scripts/opt-usr-local-symlink.sh /usr/libexec/
+RUN chmod +x /usr/libexec/opt-usr-local-symlink.sh && /usr/libexec/opt-usr-local-symlink.sh
+RUN rm /usr/libexec/opt-usr-local-symlink.sh
+
+# Enable ignition dracut module
 RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
 # regenerate the initramfs
 RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
