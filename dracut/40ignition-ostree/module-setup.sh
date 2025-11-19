@@ -36,9 +36,7 @@ install() {
         sort \
         xfs_info \
         xfs_spaceman \
-        uniq \
-        lsof \
-        fuser
+        uniq
 
     if [[ $(uname -m) = s390x ]]; then
         # for Secure Execution
@@ -94,6 +92,34 @@ install() {
         install_ignition_unit ignition-ostree-${x}-var.service
         inst_script "$moddir/ignition-ostree-${x}-var.sh" "/usr/sbin/ignition-ostree-${x}-var"
     done
+
+    inst_simple \
+        /usr/lib/udev/rules.d/90-coreos-device-mapper.rules
+
+    inst_multiple jq chattr
+    inst_script "$moddir/ignition-ostree-transposefs.sh" "/usr/libexec/ignition-ostree-transposefs"
+    for x in detect save autosave-xfs restore; do
+        install_ignition_unit ignition-ostree-transposefs-${x}.service
+    done
+
+    # Disk support
+    for p in boot root; do
+        install_ignition_unit ignition-ostree-uuid-${p}.service diskful
+    done
+    inst_script "$moddir/ignition-ostree-firstboot-uuid" \
+        "/usr/sbin/ignition-ostree-firstboot-uuid"
+
+    install_ignition_unit ignition-ostree-growfs.service
+    inst_script "$moddir/ignition-ostree-growfs.sh" \
+        /usr/sbin/ignition-ostree-growfs
+
+    install_ignition_unit ignition-ostree-check-rootfs-size.service
+    inst_script "$moddir/coreos-check-rootfs-size" \
+        /usr/libexec/coreos-check-rootfs-size
+
+    install_ignition_unit ignition-ostree-mount-state-overlays.service
+    inst_script "$moddir/ignition-ostree-mount-state-overlays.sh" \
+        /usr/libexec/ignition-ostree-mount-state-overlays
 
     inst_script "$moddir/coreos-relabel" /usr/bin/coreos-relabel
 }
