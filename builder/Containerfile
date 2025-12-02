@@ -21,6 +21,11 @@ COPY ../scripts/opt-usr-local-symlink.sh /usr/libexec/
 RUN chmod +x /usr/libexec/opt-usr-local-symlink.sh && /usr/libexec/opt-usr-local-symlink.sh
 RUN rm /usr/libexec/opt-usr-local-symlink.sh
 
+# Systemd presets are not evaluated if this exists.
+# Switching to cosa osbuild should get rid of this?
+# This file exists in the fedora-bootc image, but is empty.
+RUN rm -r /etc/machine-id
+
 # Enable ignition dracut module
 RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
 # regenerate the initramfs
