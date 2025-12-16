@@ -1,6 +1,9 @@
 FROM quay.io/fedora/fedora-bootc:43
 RUN dnf install -y ignition ignition-grub bsdtar
 
+# Add ssh support
+COPY ../conf/sshd/40-authorized-keys-file.conf /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
+
 # Copy dracut conf
 COPY ../dracut/dracut.conf.d/* /usr/lib/dracut/dracut.conf.d/
 
@@ -60,3 +63,11 @@ RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/
 
 RUN mkdir -p /usr/share/coreos-assembler
 COPY ../image.json /usr/share/coreos-assembler/image.json
+
+# add sudoers.d/passwordless-sudo
+COPY ../conf/sudoers.d/passwordless-sudo /etc/sudoers.d/passwordless-sudo
+RUN chmod 600 /etc/sudoers.d/passwordless-sudo
+
+RUN useradd -m -G wheel -s /bin/bash -p "" core
+
+LABEL com.coreos.osname=fedora-coreos
