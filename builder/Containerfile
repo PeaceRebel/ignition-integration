@@ -1,32 +1,62 @@
-FROM quay.io/fedora/fedora-bootc:42
-RUN dnf install -y ignition ignition-grub
-
-# Copy mods for ostree
-RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-ostree
-COPY ../dracut/40ignition-ostree/* /usr/lib/dracut/modules.d/40ignition-ostree
-
-#copy ignition conf
-RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-conf
-COPY ../dracut/40ignition-conf/* /usr/lib/dracut/modules.d/40ignition-conf
-
-#Copy rdcore
-RUN mkdir -p /usr/lib/dracut/modules.d/50rdcore
-COPY ../dracut/50rdcore/* /usr/lib/dracut/modules.d/50rdcore
+FROM quay.io/fedora/fedora-bootc:43
+RUN dnf install -y ignition ignition-grub bsdtar
 
 # Copy dracut conf
-COPY ../dracut/dracut.conf.d/60-coreos-omits.conf /usr/lib/dracut/dracut.conf.d/
+COPY ../dracut/dracut.conf.d/* /usr/lib/dracut/dracut.conf.d/
+
+# Copy dracut modules
+RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-ostree
+COPY ../dracut/40ignition-ostree/* /usr/lib/dracut/modules.d/40ignition-ostree
+## Copy rdcore
+RUN mkdir -p /usr/lib/dracut/modules.d/50rdcore
+COPY ../dracut/50rdcore/* /usr/lib/dracut/modules.d/50rdcore
+## Copy coreos-ignition and coreos-live dracut module
+RUN mkdir -p /usr/lib/dracut/modules.d/35coreos-ignition
+COPY ../dracut/35coreos-ignition/* /usr/lib/dracut/modules.d/35coreos-ignition
+
+## Copy dracut module to remove systemd-gpt-auto-generator from initramfs
+## Ref: https://github.com/coreos/fedora-coreos-config/commit/2baab77b4d3099b67a97a48ec99b136861866113#diff-768a2aa1ee18b2997a1c8f0edf733da0b1b15fcaf00a1d0a4df2c71d41cc9675
+RUN mkdir -p /usr/lib/dracut/modules.d/50remove-systemd-gpt-auto-generator
+COPY ../dracut/50remove-systemd-gpt-auto-generator/* /usr/lib/dracut/modules.d/50remove-systemd-gpt-auto-generator
+
+# This needs to go from the image as well.
+# Ref: https://github.com/coreos/fedora-coreos-config/commit/2baab77b4d3099b67a97a48ec99b136861866113#diff-768a2aa1ee18b2997a1c8f0edf733da0b1b15fcaf00a1d0a4df2c71d41cc9675
+# RUN rm -vf /usr/lib/systemd/system-generators/systemd-gpt-auto-generator
 
 # Make /opt and /usr/local symlinks.
 COPY ../scripts/opt-usr-local-symlink.sh /usr/libexec/
 RUN chmod +x /usr/libexec/opt-usr-local-symlink.sh && /usr/libexec/opt-usr-local-symlink.sh
 RUN rm /usr/libexec/opt-usr-local-symlink.sh
 
+
+# Copy systemd stuff
+## Copy system-generators
+COPY ../systemd/system-generators/* /usr/lib/systemd/system-generators/
+## Copy systemd presets
+COPY ../systemd/system-preset/* /usr/lib/systemd/system-preset/
+## Copy systemd units
+COPY ../systemd/system/* /usr/lib/systemd/system/
+
 # Systemd presets are not evaluated if this exists.
 # Switching to cosa osbuild should get rid of this?
 # This file exists in the fedora-bootc image, but is empty.
 RUN rm -r /etc/machine-id
 
+# Copy image.json. Needed for cosa osbuild
+COPY ../image.json /usr/share/coreos-assembler/image.json
+
+# Copy generator-lib.sh. This is need by coreos-live.
+RUN mkdir -p /usr/lib/coreos
+COPY ../coreos/* /usr/lib/coreos/
+
+# Copy libexec scripts
+COPY ../scripts/libexec/* /usr/libexec/
+
 # Enable ignition dracut module
 RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
+
 # regenerate the initramfs
 RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
+
+RUN mkdir -p /usr/share/coreos-assembler
+COPY ../image.json /usr/share/coreos-assembler/image.json
