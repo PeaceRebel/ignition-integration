@@ -22,6 +22,14 @@ COPY ../dracut/35coreos-ignition/* /usr/lib/dracut/modules.d/35coreos-ignition
 RUN mkdir -p /usr/lib/dracut/modules.d/50remove-systemd-gpt-auto-generator
 COPY ../dracut/50remove-systemd-gpt-auto-generator/* /usr/lib/dracut/modules.d/50remove-systemd-gpt-auto-generator
 
+# Copy 99emergency-shell-setup module
+RUN mkdir -p /usr/lib/dracut/modules.d/99emergency-shell-setup
+COPY ../dracut/99emergency-shell-setup/* /usr/lib/dracut/modules.d/99emergency-shell-setup
+
+# Copy 99journal-conf module
+RUN mkdir -p /usr/lib/dracut/modules.d/99journal-conf
+COPY ../dracut/99journal-conf/* /usr/lib/dracut/modules.d/99journal-conf
+
 # This needs to go from the image as well.
 # Ref: https://github.com/coreos/fedora-coreos-config/commit/2baab77b4d3099b67a97a48ec99b136861866113#diff-768a2aa1ee18b2997a1c8f0edf733da0b1b15fcaf00a1d0a4df2c71d41cc9675
 # RUN rm -vf /usr/lib/systemd/system-generators/systemd-gpt-auto-generator
@@ -64,10 +72,14 @@ RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/
 RUN mkdir -p /usr/share/coreos-assembler
 COPY ../image.json /usr/share/coreos-assembler/image.json
 
+# add os-release variant id
+RUN echo VARIANT_ID=coreos >> /usr/lib/os-release
+
 # add sudoers.d/passwordless-sudo
 COPY ../conf/sudoers.d/passwordless-sudo /etc/sudoers.d/passwordless-sudo
 RUN chmod 600 /etc/sudoers.d/passwordless-sudo
 
 RUN useradd -m -G wheel -s /bin/bash -p "" core
 
+COPY ../conf/kargs.d/00-console.toml /usr/lib/bootc/kargs.d/00-console.toml
 LABEL com.coreos.osname=fedora-coreos
