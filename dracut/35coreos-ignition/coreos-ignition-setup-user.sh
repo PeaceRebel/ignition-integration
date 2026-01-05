@@ -21,7 +21,7 @@ fi
 destination=/usr/lib/ignition
 mkdir -p $destination
 
-if is-live-image; then
+if test -f /etc/coreos-live-initramfs; then
     # Live image. If the user has supplied a config.ign via an appended
     # initrd, put it in the right place.
     copy_file_if_exists "/config.ign" "${destination}/user.ign"
