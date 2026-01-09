@@ -1,5 +1,8 @@
 FROM quay.io/fedora/fedora-bootc:43
-RUN dnf install -y ignition ignition-grub bsdtar
+# NetworkManager-team and teamd are needed for cosa external test in fcc
+RUN dnf install -y ignition ignition-grub \
+    bsdtar afterburn afterburn-dracut NetworkManager-team teamd \
+    nmstate
 
 # Add ssh support
 COPY ../conf/sshd/40-authorized-keys-file.conf /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
@@ -93,8 +96,9 @@ RUN dnf install -y device-mapper-multipath
 # Enable ignition dracut module
 RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
 
-# regenerate the initramfs
-RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
+# Copy coreos-network dracut module
+RUN mkdir -p /usr/lib/dracut/modules.d/35coreos-network
+COPY ../dracut/35coreos-network/ /usr/lib/dracut/modules.d/35coreos-network
 
 RUN mkdir -p /usr/share/coreos-assembler
 COPY ../image.json /usr/share/coreos-assembler/image.json
