@@ -16,6 +16,9 @@ COPY ../dracut/50rdcore/* /usr/lib/dracut/modules.d/50rdcore
 ## Copy coreos-ignition and coreos-live dracut module
 RUN mkdir -p /usr/lib/dracut/modules.d/35coreos-ignition
 COPY ../dracut/35coreos-ignition/* /usr/lib/dracut/modules.d/35coreos-ignition
+## Copy ignition-conf dracut module
+RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-conf
+COPY ../dracut/40ignition-conf/* /usr/lib/dracut/modules.d/40ignition-conf
 
 ## Copy dracut module to remove systemd-gpt-auto-generator from initramfs
 ## Ref: https://github.com/coreos/fedora-coreos-config/commit/2baab77b4d3099b67a97a48ec99b136861866113#diff-768a2aa1ee18b2997a1c8f0edf733da0b1b15fcaf00a1d0a4df2c71d41cc9675
