@@ -97,9 +97,10 @@ RUN rm -r /etc/machine-id
 
 #### Testing
 ### Coreos Assembler
-# Copy image.json. Needed for cosa osbuild
+# Copy image.json and platforms.json. Needed for cosa osbuild
 RUN mkdir -p /usr/share/coreos-assembler
 COPY ../image.json /usr/share/coreos-assembler/image.json
+COPY ../platforms.json /usr/share/coreos-assembler/platforms.json
 # add os-release variant id
 RUN echo VARIANT_ID=coreos >> /usr/lib/os-release
 ### bootc image
