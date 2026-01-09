@@ -77,9 +77,10 @@ RUN echo VARIANT_ID=coreos >> /usr/lib/os-release
 
 # add sudoers.d/passwordless-sudo
 COPY ../conf/sudoers.d/passwordless-sudo /etc/sudoers.d/passwordless-sudo
-RUN chmod 600 /etc/sudoers.d/passwordless-sudo
+RUN chmod 440 /etc/sudoers.d/passwordless-sudo
 
-RUN useradd -m -G wheel -s /bin/bash -p "" core
+COPY ../conf/sudoers.d/coreos-sudo-group /etc/sudoers.d/coreos-sudo-group
+RUN chmod 440 /etc/sudoers.d/coreos-sudo-group
 
 COPY ../conf/kargs.d/00-console.toml /usr/lib/bootc/kargs.d/00-console.toml
 LABEL com.coreos.osname=fedora-coreos
