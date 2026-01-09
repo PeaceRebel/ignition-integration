@@ -4,6 +4,10 @@ RUN dnf install -y ignition ignition-grub bsdtar
 # Add ssh support
 COPY ../conf/sshd/40-authorized-keys-file.conf /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
 
+RUN dnf install -y iscsi-initiator-utils sg3_utils \
+    clevis clevis-luks clevis-dracut clevis-systemd \
+    cryptsetup device-mapper-multipath
+
 # Copy dracut conf
 COPY ../dracut/dracut.conf.d/* /usr/lib/dracut/dracut.conf.d/
 
@@ -32,6 +36,10 @@ COPY ../dracut/99emergency-shell-setup/* /usr/lib/dracut/modules.d/99emergency-s
 # Copy 99journal-conf module
 RUN mkdir -p /usr/lib/dracut/modules.d/99journal-conf
 COPY ../dracut/99journal-conf/* /usr/lib/dracut/modules.d/99journal-conf
+
+# Copy multipath dracut modules
+RUN mkdir -p /usr/lib/dracut/modules.d/35coreos-multipath
+COPY ../dracut/35coreos-multipath/ /usr/lib/dracut/modules.d/35coreos-multipath
 
 # This needs to go from the image as well.
 # Ref: https://github.com/coreos/fedora-coreos-config/commit/2baab77b4d3099b67a97a48ec99b136861866113#diff-768a2aa1ee18b2997a1c8f0edf733da0b1b15fcaf00a1d0a4df2c71d41cc9675
@@ -65,6 +73,22 @@ COPY ../coreos/* /usr/lib/coreos/
 
 # Copy libexec scripts
 COPY ../scripts/libexec/* /usr/libexec/
+
+# Copy scsi-rules dracut module
+RUN mkdir -p /usr/lib/dracut/modules.d/01scsi-rules
+COPY ../dracut/01scsi-rules/ /usr/lib/dracut/modules.d/01scsi-rules
+
+# Copy udev rules
+COPY ../conf/udev/rules.d/ /usr/lib/udev/rules.d/
+
+COPY ../conf/lvm/devices/system.devices /etc/lvm/devices/system.devices
+
+RUN rm -v /usr/lib/systemd/system/local-fs.target.wants/bootc-generic-growpart.service
+
+RUN systemctl mask systemd-repart.service
+
+# device-mapper-multipath is needed for multipath support.
+RUN dnf install -y device-mapper-multipath
 
 # Enable ignition dracut module
 RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ignition.conf
