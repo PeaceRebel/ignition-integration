@@ -4,84 +4,20 @@ RUN dnf install -y ignition ignition-grub \
     bsdtar afterburn afterburn-dracut NetworkManager-team teamd \
     nmstate iscsi-initiator-utils sg3_utils \
     clevis clevis-luks clevis-dracut clevis-systemd \
-    cryptsetup device-mapper-multipath
+    cryptsetup device-mapper-multipath \
+    ignition-integration # not in repo yet, image build will fail
 
-#### Dracut
-## Conf
-COPY ../dracut/dracut.conf.d/ /usr/lib/dracut/dracut.conf.d/
-
-## Modules
-# 01scsi-rules
-RUN mkdir -p /usr/lib/dracut/modules.d/01scsi-rules
-COPY ../dracut/01scsi-rules/ /usr/lib/dracut/modules.d/01scsi-rules
-# 35coreos-ignition
-RUN mkdir -p /usr/lib/dracut/modules.d/35coreos-ignition
-COPY ../dracut/35coreos-ignition/ /usr/lib/dracut/modules.d/35coreos-ignition
-# 35coreos-multipath
-RUN mkdir -p /usr/lib/dracut/modules.d/35coreos-multipath
-COPY ../dracut/35coreos-multipath/ /usr/lib/dracut/modules.d/35coreos-multipath
-# 35coreos-network
-RUN mkdir -p /usr/lib/dracut/modules.d/35coreos-network
-COPY ../dracut/35coreos-network/ /usr/lib/dracut/modules.d/35coreos-network
-# 40ignition-conf
-RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-conf
-COPY ../dracut/40ignition-conf/ /usr/lib/dracut/modules.d/40ignition-conf
-# 40ignition-ostree
-RUN mkdir -p /usr/lib/dracut/modules.d/40ignition-ostree
-COPY ../dracut/40ignition-ostree/ /usr/lib/dracut/modules.d/40ignition-ostree
-# 50rdcore
-RUN mkdir -p /usr/lib/dracut/modules.d/50rdcore
-COPY ../dracut/50rdcore/ /usr/lib/dracut/modules.d/50rdcore
-# 50remove-systemd-gpt-auto-generator
-# Ref: https://github.com/coreos/fedora-coreos-config/commit/2baab77b4d3099b67a97a48ec99b136861866113#diff-768a2aa1ee18b2997a1c8f0edf733da0b1b15fcaf00a1d0a4df2c71d41cc9675
-RUN mkdir -p /usr/lib/dracut/modules.d/50remove-systemd-gpt-auto-generator
-COPY ../dracut/50remove-systemd-gpt-auto-generator/ /usr/lib/dracut/modules.d/50remove-systemd-gpt-auto-generator
-# 99emergency-shell-setup
-RUN mkdir -p /usr/lib/dracut/modules.d/99emergency-shell-setup
-COPY ../dracut/99emergency-shell-setup/ /usr/lib/dracut/modules.d/99emergency-shell-setup
-# 99journal-conf
-RUN mkdir -p /usr/lib/dracut/modules.d/99journal-conf
-COPY ../dracut/99journal-conf/ /usr/lib/dracut/modules.d/99journal-conf
-
-
-##### Systemd
-# system-generators
-COPY ../systemd/system-generators/ /usr/lib/systemd/system-generators/
-# system-preset
-COPY ../systemd/system-preset/ /usr/lib/systemd/system-preset/
-# system
-COPY ../systemd/system/ /usr/lib/systemd/system/
 # Commands 
 RUN rm -v /usr/lib/systemd/system/local-fs.target.wants/bootc-generic-growpart.service
 RUN systemctl mask systemd-repart.service
 
-
 #### Configurations and Scripts
-# generator-lib.sh.
-# Needed by coreos-boot-mount-generator
-RUN mkdir -p /usr/lib/coreos
-COPY ../coreos/generator-lib.sh /usr/lib/coreos/generator-lib.sh
-# /usr/libexec/
-COPY ../scripts/libexec/coreos-ignition-delete-config /usr/libexec/coreos-ignition-delete-config
-COPY ../scripts/libexec/coreos-ignition-firstboot-complete /usr/libexec/coreos-ignition-firstboot-complete
-COPY ../scripts/libexec/coreos-ignition-write-issues /usr/libexec/coreos-ignition-write-issues
-COPY ../scripts/libexec/coreos-populate-lvmdevices /usr/libexec/coreos-populate-lvmdevices
-# Udev rules
-COPY ../conf/udev/rules.d/ /usr/lib/udev/rules.d/
-# lvm devices
-COPY ../conf/lvm/devices/system.devices /etc/lvm/devices/system.devices
 # sudoers.d.
 # passwordless sudo for  %sudo and %wheel
 COPY ../conf/sudoers.d/passwordless-sudo /etc/sudoers.d/passwordless-sudo
 RUN chmod 440 /etc/sudoers.d/passwordless-sudo
 COPY ../conf/sudoers.d/coreos-sudo-group /etc/sudoers.d/coreos-sudo-group
 RUN chmod 440 /etc/sudoers.d/coreos-sudo-group
-# tmpfiles.d
-# root-bash.conf. Do we need this?
-COPY ../conf/tmpfiles.d/root-bash.conf /etc/tmpfiles.d/root-bash.conf
-# SSHD
-# look for authorized keys in ~/.ssh/authorized_keys and ~/.ssh/authorized_keys.d/*
-COPY ../conf/sshd/40-authorized-keys-file.conf /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
 
 #### Execute scripts
 # Make /opt and /usr/local symlinks.
