@@ -16,6 +16,7 @@ URL:            %{forgeurl}
 Source0:        %{forgesource}
 
 BuildRequires:  systemd-rpm-macros
+BuildRequires:  make
 Requires:       dracut
 Requires:       ignition
 Requires:       ignition-grub
