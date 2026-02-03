@@ -56,6 +56,7 @@ scripts used to build bootc-based images.
 %files
 %config(noreplace) %{dracutlibdir}/dracut.conf.d/*
 %{dracutlibdir}/modules.d/01scsi-rules
+%{dracutlibdir}/modules.d/35ignition-helpers
 %{dracutlibdir}/modules.d/40ignition-ostree
 %{dracutlibdir}/modules.d/50rdcore
 %{dracutlibdir}/modules.d/35coreos-network

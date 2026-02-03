@@ -45,6 +45,12 @@ install:
 	install -m 0644 dracut/40ignition-ostree/ignition-ostree-uuid-root.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-uuid-root.service"
 	install -m 0755 dracut/40ignition-ostree/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/module-setup.sh"
 
+	# dracut modules: 35ignition-helpers
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-helpers"
+	install -m 0755 dracut/35ignition-helpers/coreos-kargs.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-helpers/coreos-kargs.sh"
+	install -m 0644 dracut/35ignition-helpers/coreos-kargs-reboot.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-helpers/coreos-kargs-reboot.service"
+	install -m 0755 dracut/35ignition-helpers/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-helpers/module-setup.sh"
+
 	# dracut modules: 50rdcore
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore"
 	install -m 0755 dracut/50rdcore/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore/module-setup.sh"
