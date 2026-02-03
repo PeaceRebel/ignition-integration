@@ -23,9 +23,6 @@ Requires:       ignition-grub
 Requires:       bsdtar
 Requires:       afterburn
 Requires:       afterburn-dracut
-Requires:       NetworkManager-team
-Requires:       teamd
-Requires:       nmstate
 Requires:       iscsi-initiator-utils
 Requires:       sg3_utils
 Requires:       clevis
@@ -33,7 +30,6 @@ Requires:       clevis-luks
 Requires:       clevis-dracut
 Requires:       clevis-systemd
 Requires:       cryptsetup
-Requires:       device-mapper-multipath
 
 %description
 Installs ignition-related dracut modules, systemd units, and helper
