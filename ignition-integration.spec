@@ -36,7 +36,7 @@ Requires:       cryptsetup
 Requires:       device-mapper-multipath
 
 %description
-Installs CoreOS ignition-related dracut modules, systemd units, and helper
+Installs ignition-related dracut modules, systemd units, and helper
 scripts used to build bootc-based images.
 
 %prep
@@ -62,15 +62,12 @@ scripts used to build bootc-based images.
 %{dracutlibdir}/modules.d/01scsi-rules
 %{dracutlibdir}/modules.d/40ignition-ostree
 %{dracutlibdir}/modules.d/50rdcore
-%{dracutlibdir}/modules.d/35coreos-ignition
-%{dracutlibdir}/modules.d/35coreos-multipath
 %{dracutlibdir}/modules.d/35coreos-network
 %{dracutlibdir}/modules.d/40ignition-conf
 %{dracutlibdir}/modules.d/50remove-systemd-gpt-auto-generator
 %{dracutlibdir}/modules.d/99emergency-shell-setup
 %{dracutlibdir}/modules.d/99journal-conf
 
-%{_systemdgeneratordir}/coreos-boot-mount-generator
 %{_systemdgeneratordir}/coreos-sulogin-force-generator
 
 %{_presetdir}/40-coreos-systemd.preset

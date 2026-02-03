@@ -50,46 +50,10 @@ install:
 	install -m 0755 dracut/50rdcore/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore/module-setup.sh"
 	install -m 0755 dracut/50rdcore/rdcore "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore/rdcore"
 
-	# dracut modules: 35coreos-ignition
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition"
-	install -m 0644 dracut/35coreos-ignition/01-secex.ign "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/01-secex.ign"
-	install -m 0644 dracut/35coreos-ignition/80-coreos-boot-disk.rules "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/80-coreos-boot-disk.rules"
-	install -m 0644 dracut/35coreos-ignition/coreos-boot-edit.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-boot-edit.service"
-	install -m 0755 dracut/35coreos-ignition/coreos-boot-edit.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-boot-edit.sh"
-	install -m 0755 dracut/35coreos-ignition/coreos-disk-contains-partition-name.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-disk-contains-partition-name.sh"
-	install -m 0755 dracut/35coreos-ignition/coreos-diskful-generator "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-diskful-generator"
-	install -m 0644 dracut/35coreos-ignition/coreos-gpt-setup.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-gpt-setup.service"
-	install -m 0755 dracut/35coreos-ignition/coreos-gpt-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-gpt-setup.sh"
-	install -m 0644 dracut/35coreos-ignition/coreos-ignition-setup-user.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-ignition-setup-user.service"
-	install -m 0755 dracut/35coreos-ignition/coreos-ignition-setup-user.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-ignition-setup-user.sh"
-	install -m 0644 dracut/35coreos-ignition/coreos-ignition-unique-boot.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-ignition-unique-boot.service"
-	install -m 0644 dracut/35coreos-ignition/coreos-kargs-reboot.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-kargs-reboot.service"
-	install -m 0755 dracut/35coreos-ignition/coreos-kargs.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-kargs.sh"
-	install -m 0644 dracut/35coreos-ignition/coreos-post-ignition-checks.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-post-ignition-checks.service"
-	install -m 0755 dracut/35coreos-ignition/coreos-post-ignition-checks.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-post-ignition-checks.sh"
-	install -m 0644 dracut/35coreos-ignition/coreos-rootflags.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-rootflags.service"
-	install -m 0755 dracut/35coreos-ignition/coreos-rootflags.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-rootflags.sh"
-	install -m 0644 dracut/35coreos-ignition/coreos-secex-ignition-prepare.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-secex-ignition-prepare.service"
-	install -m 0755 dracut/35coreos-ignition/coreos-secex-ignition-prepare.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-secex-ignition-prepare.sh"
-	install -m 0644 dracut/35coreos-ignition/coreos-teardown-initramfs.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-teardown-initramfs.service"
-	install -m 0755 dracut/35coreos-ignition/coreos-teardown-initramfs.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-teardown-initramfs.sh"
-	install -m 0644 dracut/35coreos-ignition/coreos-unique-boot.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/coreos-unique-boot.service"
-	install -m 0755 dracut/35coreos-ignition/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-ignition/module-setup.sh"
-
-	# dracut modules: 35coreos-multipath
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-multipath"
-	install -m 0755 dracut/35coreos-multipath/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-multipath/module-setup.sh"
-	install -m 0755 dracut/35coreos-multipath/coreos-multipath-generator "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-multipath/coreos-multipath-generator"
-	install -m 0644 dracut/35coreos-multipath/coreos-multipath-wait.target "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-multipath/coreos-multipath-wait.target"
-	install -m 0644 dracut/35coreos-multipath/coreos-propagate-multipath-conf.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-multipath/coreos-propagate-multipath-conf.service"
-	install -m 0755 dracut/35coreos-multipath/coreos-propagate-multipath-conf.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-multipath/coreos-propagate-multipath-conf.sh"
-
 	# dracut modules: 35coreos-network
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network"
 	install -m 0755 dracut/35coreos-network/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/module-setup.sh"
 	install -m 0644 dracut/35coreos-network/50-afterburn-network-kargs-default.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/50-afterburn-network-kargs-default.conf"
-	install -m 0644 dracut/35coreos-network/coreos-copy-firstboot-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/coreos-copy-firstboot-network.service"
-	install -m 0755 dracut/35coreos-network/coreos-copy-firstboot-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/coreos-copy-firstboot-network.sh"
 	install -m 0644 dracut/35coreos-network/coreos-enable-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/coreos-enable-network.service"
 	install -m 0755 dracut/35coreos-network/coreos-enable-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/coreos-enable-network.sh"
 
@@ -117,7 +81,6 @@ install:
 
 	# systemd: generators
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system-generators"
-	install -m 0755 systemd/system-generators/coreos-boot-mount-generator "$(DESTDIR)$(SYSTEMD_DIR)/system-generators/coreos-boot-mount-generator"
 	install -m 0755 systemd/system-generators/coreos-sulogin-force-generator "$(DESTDIR)$(SYSTEMD_DIR)/system-generators/coreos-sulogin-force-generator"
 
 	# systemd: presets
