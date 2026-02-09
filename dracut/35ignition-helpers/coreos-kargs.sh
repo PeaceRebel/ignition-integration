@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if is-live-image; then
+if test -f /etc/coreos-live-initramfs; then
     /usr/bin/rdcore kargs --current --create-if-changed /run/coreos-kargs-changed "$@"
     if [ -e /run/coreos-kargs-changed ]; then
         echo "Need to modify kernel arguments, but cannot affect live system." >&2

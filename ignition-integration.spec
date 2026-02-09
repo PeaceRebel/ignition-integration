@@ -2,7 +2,7 @@
 %global forgeurl https://github.com/PeaceRebel/ignition-integration
 %global debug_package %{nil}
 
-Version:        0.1.0
+Version:        0.2.0
 
 %forgemeta -v -i
 
@@ -23,9 +23,6 @@ Requires:       ignition-grub
 Requires:       bsdtar
 Requires:       afterburn
 Requires:       afterburn-dracut
-Requires:       NetworkManager-team
-Requires:       teamd
-Requires:       nmstate
 Requires:       iscsi-initiator-utils
 Requires:       sg3_utils
 Requires:       clevis
@@ -33,10 +30,9 @@ Requires:       clevis-luks
 Requires:       clevis-dracut
 Requires:       clevis-systemd
 Requires:       cryptsetup
-Requires:       device-mapper-multipath
 
 %description
-Installs CoreOS ignition-related dracut modules, systemd units, and helper
+Installs ignition-related dracut modules, systemd units, and helper
 scripts used to build bootc-based images.
 
 %prep
@@ -60,17 +56,15 @@ scripts used to build bootc-based images.
 %files
 %config(noreplace) %{dracutlibdir}/dracut.conf.d/*
 %{dracutlibdir}/modules.d/01scsi-rules
+%{dracutlibdir}/modules.d/35ignition-helpers
 %{dracutlibdir}/modules.d/40ignition-ostree
 %{dracutlibdir}/modules.d/50rdcore
-%{dracutlibdir}/modules.d/35coreos-ignition
-%{dracutlibdir}/modules.d/35coreos-multipath
 %{dracutlibdir}/modules.d/35coreos-network
 %{dracutlibdir}/modules.d/40ignition-conf
 %{dracutlibdir}/modules.d/50remove-systemd-gpt-auto-generator
 %{dracutlibdir}/modules.d/99emergency-shell-setup
 %{dracutlibdir}/modules.d/99journal-conf
 
-%{_systemdgeneratordir}/coreos-boot-mount-generator
 %{_systemdgeneratordir}/coreos-sulogin-force-generator
 
 %{_presetdir}/40-coreos-systemd.preset
@@ -104,5 +98,10 @@ scripts used to build bootc-based images.
 %config(noreplace) /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
 
 %changelog
+* Wed Feb 04 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.2.0-1
+- Remove coreos specific modules, scripts and files
+- Add script to link /opt and /usr/local inline instead of file
+- Remove unnecessary dependencies
+- Add helpers for kargs
 * Tue Dec 09 2025 Bipin B Narayan <bbnaraya@redhat.com> - 0.1.0-1
 - Initial package

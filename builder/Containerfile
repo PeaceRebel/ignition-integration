@@ -1,12 +1,6 @@
 FROM quay.io/fedora/fedora-bootc:rawhide
-# NetworkManager-team and teamd are needed for cosa external test in fcc
-RUN dnf install -y ignition ignition-grub \
-    bsdtar afterburn afterburn-dracut NetworkManager-team teamd \
-    nmstate iscsi-initiator-utils sg3_utils \
-    clevis clevis-luks clevis-dracut clevis-systemd \
-    cryptsetup device-mapper-multipath \
-    dnf5-plugins # for copr command
 
+RUN dnf install -y dnf5-plugins # for copr command
 RUN dnf copr enable bipinbn/ignition-integration -y && dnf install -y ignition-integration # not in repo yet, image build will fail
 
 # Commands 
@@ -18,12 +12,28 @@ RUN systemctl mask systemd-repart.service
 # passwordless sudo for  %sudo and %wheel
 COPY ../conf/sudoers.d/passwordless-sudo /etc/sudoers.d/passwordless-sudo
 RUN chmod 440 /etc/sudoers.d/passwordless-sudo
-COPY ../conf/sudoers.d/coreos-sudo-group /etc/sudoers.d/coreos-sudo-group
-RUN chmod 440 /etc/sudoers.d/coreos-sudo-group
 
 #### Execute scripts
 # Make /opt and /usr/local symlinks.
-COPY ../scripts/opt-usr-local-symlink.sh /usr/libexec/
+# Possibly move this in the package and only run it here?
+RUN cat > /usr/libexec/opt-usr-local-symlink.sh <<'EOF'
+#!/usr/bin/env bash
+
+# Make `/opt and `/usr/local` symlinks.
+# This is the historical default and what FCOS currently ships. fedora-bootc
+# uses the new `root` value, but migrating FCOS is not that simple...
+# https://coreos.github.io/rpm-ostree/treefile/#experimental-options
+# We can nuke `opt-usrlocal: var` above once this is the only path we support.
+
+set -xeuo pipefail
+
+if [ -f /run/.containerenv ]; then
+	  rm -vrf /opt;
+    ln -vs var/opt /opt
+    rm -vrf /usr/local
+    ln -vs ../var/usrlocal /usr/local
+fi
+EOF
 RUN chmod +x /usr/libexec/opt-usr-local-symlink.sh && /usr/libexec/opt-usr-local-symlink.sh
 RUN rm /usr/libexec/opt-usr-local-symlink.sh
 
@@ -34,18 +44,9 @@ RUN rm -r /etc/machine-id
 
 
 #### Testing
-### Coreos Assembler
-# Copy image.json and platforms.json. Needed for cosa osbuild
-RUN mkdir -p /usr/share/coreos-assembler
-COPY ../image.json /usr/share/coreos-assembler/image.json
-COPY ../platforms.json /usr/share/coreos-assembler/platforms.json
-# add os-release variant id
-RUN echo VARIANT_ID=coreos >> /usr/lib/os-release
-### bootc image
 # Enable serial console
 COPY ../conf/kargs.d/00-console.toml /usr/lib/bootc/kargs.d/00-console.toml
 # Needed for, only, some tests to pass.
-RUN groupadd -g 16 sudo
 
 ### Finalize
 # Enable ignition dracut module
@@ -53,6 +54,3 @@ RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ig
 
 # regenerate the initramfs
 RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
-
-# Required to build using cosa
-LABEL com.coreos.osname=fedora-coreos
