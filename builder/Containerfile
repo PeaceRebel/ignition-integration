@@ -3,6 +3,28 @@ FROM quay.io/fedora/fedora-bootc:rawhide
 RUN dnf install -y dnf5-plugins # for copr command
 RUN dnf copr enable bipinbn/ignition-integration -y && dnf install -y ignition-integration # not in repo yet, image build will fail
 
+
+RUN cat > /usr/lib/dracut//modules.d/40ignition-conf/00-core.ign <<'EOF'
+{
+  "ignition": {
+    "version": "3.0.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "name": "admin",
+        "gecos": "Administrator user",
+        "groups": [
+          "wheel",
+          "adm",
+          "systemd-journal"
+        ]
+      }
+    ]
+  }
+}
+EOF
+
 # Commands 
 RUN rm -v /usr/lib/systemd/system/local-fs.target.wants/bootc-generic-growpart.service
 RUN systemctl mask systemd-repart.service
@@ -41,12 +63,6 @@ RUN rm /usr/libexec/opt-usr-local-symlink.sh
 # Switching to cosa osbuild should get rid of this?
 # This file exists in the fedora-bootc image, but is empty.
 RUN rm -r /etc/machine-id
-
-
-#### Testing
-# Enable serial console
-COPY ../conf/kargs.d/00-console.toml /usr/lib/bootc/kargs.d/00-console.toml
-# Needed for, only, some tests to pass.
 
 ### Finalize
 # Enable ignition dracut module
