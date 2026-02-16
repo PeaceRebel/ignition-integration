@@ -1,8 +1,7 @@
 FROM quay.io/fedora/fedora-bootc:rawhide
 
 RUN dnf install -y dnf5-plugins # for copr command
-RUN dnf copr enable bipinbn/ignition-integration -y && dnf install -y ignition-integration # not in repo yet, image build will fail
-
+RUN dnf copr enable bipinbn/ignition-integration -y && dnf install -y ignition-integration
 
 RUN cat > /usr/lib/dracut//modules.d/40ignition-conf/00-core.ign <<'EOF'
 {
