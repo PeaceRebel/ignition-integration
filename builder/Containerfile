@@ -70,3 +70,8 @@ RUN echo 'add_dracutmodules+=" ignition "' > /usr/lib/dracut/dracut.conf.d/50-ig
 
 # regenerate the initramfs
 RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
+
+RUN cat > /usr/lib/bootc/install/10mount-spec.toml <<'EOF'
+[install]
+root-mount-spec = "LABEL=root"
+EOF
