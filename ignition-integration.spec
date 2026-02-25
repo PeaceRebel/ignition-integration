@@ -2,7 +2,7 @@
 %global forgeurl https://github.com/PeaceRebel/ignition-integration
 %global debug_package %{nil}
 
-Version:        0.2.0
+Version:        0.3.0
 
 %forgemeta -v -i
 
@@ -98,6 +98,8 @@ scripts used to build bootc-based images.
 %config(noreplace) /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
 
 %changelog
+* Wed Feb 25 2026 Bipin B Narayan <bbnaraya@redhat.com< - 0.3.0-1
+- Add dracut conf to enable ignition module
 * Wed Feb 04 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.2.0-1
 - Remove coreos specific modules, scripts and files
 - Add script to link /opt and /usr/local inline instead of file
