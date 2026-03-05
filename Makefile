@@ -17,7 +17,8 @@ install:
 	install -d "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d"
 	install -m 0644 dracut/dracut.conf.d/60-coreos-nostrip.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-coreos-nostrip.conf"
 	install -m 0644 dracut/dracut.conf.d/60-coreos-omits.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-coreos-omits.conf"
-
+	install -m 0644 dracut/dracut.conf.d/50-ignition.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/50-ignition.conf"
+	
 	# dracut modules: 01scsi-rules
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/01scsi-rules"
 	install -m 0755 dracut/01scsi-rules/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/01scsi-rules/module-setup.sh"
