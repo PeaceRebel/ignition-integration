@@ -73,13 +73,6 @@ install:
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator"
 	install -m 0755 dracut/50remove-systemd-gpt-auto-generator/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator/module-setup.sh"
 
-	# dracut modules: 99emergency-shell-setup
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup"
-	install -m 0755 dracut/99emergency-shell-setup/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup/module-setup.sh"
-	install -m 0755 dracut/99emergency-shell-setup/emergency-shell.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup/emergency-shell.sh"
-	install -m 0644 dracut/99emergency-shell-setup/ignition-virtio-dump-journal.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup/ignition-virtio-dump-journal.service"
-	install -m 0755 dracut/99emergency-shell-setup/ignition-virtio-dump-journal.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup/ignition-virtio-dump-journal.sh"
-
 	# dracut modules: 99journal-conf
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99journal-conf"
 	install -m 0755 dracut/99journal-conf/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99journal-conf/module-setup.sh"

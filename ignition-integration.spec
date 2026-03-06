@@ -62,7 +62,6 @@ scripts used to build bootc-based images.
 %{dracutlibdir}/modules.d/35coreos-network
 %{dracutlibdir}/modules.d/40ignition-conf
 %{dracutlibdir}/modules.d/50remove-systemd-gpt-auto-generator
-%{dracutlibdir}/modules.d/99emergency-shell-setup
 %{dracutlibdir}/modules.d/99journal-conf
 
 %{_systemdgeneratordir}/coreos-sulogin-force-generator
@@ -98,6 +97,8 @@ scripts used to build bootc-based images.
 %config(noreplace) /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
 
 %changelog
+* Fri Mar 06 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.3.0-1
+- Remove 99emergency-shell-setup dracut module
 * Wed Feb 04 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.2.0-1
 - Remove coreos specific modules, scripts and files
 - Add script to link /opt and /usr/local inline instead of file
