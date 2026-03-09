@@ -15,8 +15,8 @@ EXEC_DIR      ?= /usr/libexec
 install:
 	# dracut config
 	install -d "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d"
-	install -m 0644 dracut/dracut.conf.d/60-coreos-nostrip.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-coreos-nostrip.conf"
-	install -m 0644 dracut/dracut.conf.d/60-coreos-omits.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-coreos-omits.conf"
+	install -m 0644 dracut/dracut.conf.d/60-ignition-nostrip.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-ignition-nostrip.conf"
+	install -m 0644 dracut/dracut.conf.d/60-omit-nfs.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-omit-nfs.conf"
 
 	# dracut modules: 01scsi-rules
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/01scsi-rules"
