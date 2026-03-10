@@ -55,21 +55,20 @@ scripts used to build bootc-based images.
 
 %files
 %config(noreplace) %{dracutlibdir}/dracut.conf.d/*
-%{dracutlibdir}/modules.d/01scsi-rules
+%{dracutlibdir}/modules.d/01ignition-scsi-rules
 %{dracutlibdir}/modules.d/35ignition-helpers
 %{dracutlibdir}/modules.d/40ignition-ostree
-%{dracutlibdir}/modules.d/50rdcore
-%{dracutlibdir}/modules.d/35coreos-network
+%{dracutlibdir}/modules.d/50ignition-rdcore
+%{dracutlibdir}/modules.d/35ignition-network
 %{dracutlibdir}/modules.d/40ignition-conf
 %{dracutlibdir}/modules.d/50remove-systemd-gpt-auto-generator
-%{dracutlibdir}/modules.d/99emergency-shell-setup
-%{dracutlibdir}/modules.d/99journal-conf
+%{dracutlibdir}/modules.d/99ignition-journal-conf
 
-%{_systemdgeneratordir}/coreos-sulogin-force-generator
+%{_systemdgeneratordir}/ignition-sulogin-force-generator
 
-%{_presetdir}/40-coreos-systemd.preset
-%{_presetdir}/40-coreos.preset
-%{_presetdir}/45-coreos-populate-lvmdevices.preset
+%{_presetdir}/40-ignition-systemd.preset
+%{_presetdir}/40-ignition.preset
+%{_presetdir}/45-ignition-populate-lvmdevices.preset
 
 %{_unitdir}/coreos-ignition-delete-config.service
 %{_unitdir}/coreos-ignition-firstboot-complete.service
@@ -89,15 +88,14 @@ scripts used to build bootc-based images.
 %{_libexecdir}/coreos-ignition-write-issues
 %{_libexecdir}/coreos-populate-lvmdevices
 
-/usr/lib/coreos/generator-lib.sh
-
-%{_udevrulesdir}/90-coreos-device-mapper.rules
+%{_udevrulesdir}/90-ignition-device-mapper.rules
 
 %config(noreplace) /etc/lvm/devices/system.devices
 %config(noreplace) /etc/tmpfiles.d/root-bash.conf
-%config(noreplace) /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
 
 %changelog
+* Fri Mar 06 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.3.0-1
+- Remove 99emergency-shell-setup dracut module
 * Wed Feb 04 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.2.0-1
 - Remove coreos specific modules, scripts and files
 - Add script to link /opt and /usr/local inline instead of file

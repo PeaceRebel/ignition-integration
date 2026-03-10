@@ -18,9 +18,9 @@ install_and_enable_unit() {
 }
 
 install() {
-    inst_simple "$moddir/coreos-enable-network.sh" \
-        "/usr/sbin/coreos-enable-network"
-    install_and_enable_unit "coreos-enable-network.service" \
+    inst_simple "$moddir/ignition-enable-network.sh" \
+        "/usr/sbin/ignition-enable-network"
+    install_and_enable_unit "ignition-enable-network.service" \
         "ignition-complete.target"
 
     # Dropin with firstboot network configuration kargs, applied via

@@ -1,0 +1,29 @@
+{
+  "ignition": {
+    "version": "3.0.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "name": "admin",
+        "gecos": "Administrator user",
+        "groups": [
+          "wheel",
+          "adm",
+          "systemd-journal"
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/etc/sudoers.d/passwordless-sudo",
+        "contents": {
+          "compression": "",
+          "source": "data:;base64,IyBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNoaWZ0L29zL2lzc3Vlcy85Ngold2hlZWwgICAgICAgIEFMTD0oQUxMKSAgICAgICBOT1BBU1NXRDogQUxMCg=="
+        }
+      }
+    ]
+  }
+}

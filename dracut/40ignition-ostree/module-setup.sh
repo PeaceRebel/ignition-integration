@@ -9,7 +9,7 @@ check() {
 }
 
 depends() {
-    echo ignition rdcore
+    echo ignition ignition-rdcore
 }
 
 install_ignition_unit() {

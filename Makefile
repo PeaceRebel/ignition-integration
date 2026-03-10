@@ -15,12 +15,12 @@ EXEC_DIR      ?= /usr/libexec
 install:
 	# dracut config
 	install -d "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d"
-	install -m 0644 dracut/dracut.conf.d/60-coreos-nostrip.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-coreos-nostrip.conf"
-	install -m 0644 dracut/dracut.conf.d/60-coreos-omits.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-coreos-omits.conf"
+	install -m 0644 dracut/dracut.conf.d/60-ignition-nostrip.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-ignition-nostrip.conf"
+	install -m 0644 dracut/dracut.conf.d/60-omit-nfs.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-omit-nfs.conf"
 
-	# dracut modules: 01scsi-rules
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/01scsi-rules"
-	install -m 0755 dracut/01scsi-rules/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/01scsi-rules/module-setup.sh"
+	# dracut modules: 01ignition-scsi-rules
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/01ignition-scsi-rules"
+	install -m 0755 dracut/01ignition-scsi-rules/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/01ignition-scsi-rules/module-setup.sh"
 
 	# dracut modules: 40ignition-ostree
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree"
@@ -51,17 +51,17 @@ install:
 	install -m 0644 dracut/35ignition-helpers/coreos-kargs-reboot.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-helpers/coreos-kargs-reboot.service"
 	install -m 0755 dracut/35ignition-helpers/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-helpers/module-setup.sh"
 
-	# dracut modules: 50rdcore
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore"
-	install -m 0755 dracut/50rdcore/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore/module-setup.sh"
-	install -m 0755 dracut/50rdcore/rdcore "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore/rdcore"
+	# dracut modules: 50ignition-rdcore
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50ignition-rdcore"
+	install -m 0755 dracut/50ignition-rdcore/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50ignition-rdcore/module-setup.sh"
+	install -m 0755 dracut/50ignition-rdcore/rdcore "$(DESTDIR)$(DRACUT_DIR)/modules.d/50ignition-rdcore/rdcore"
 
-	# dracut modules: 35coreos-network
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network"
-	install -m 0755 dracut/35coreos-network/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/module-setup.sh"
-	install -m 0644 dracut/35coreos-network/50-afterburn-network-kargs-default.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/50-afterburn-network-kargs-default.conf"
-	install -m 0644 dracut/35coreos-network/coreos-enable-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/coreos-enable-network.service"
-	install -m 0755 dracut/35coreos-network/coreos-enable-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/coreos-enable-network.sh"
+	# dracut modules: 35ignition-network
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network"
+	install -m 0755 dracut/35ignition-network/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/module-setup.sh"
+	install -m 0644 dracut/35ignition-network/50-afterburn-network-kargs-default.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/50-afterburn-network-kargs-default.conf"
+	install -m 0644 dracut/35ignition-network/ignition-enable-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/ignition-enable-network.service"
+	install -m 0755 dracut/35ignition-network/ignition-enable-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/ignition-enable-network.sh"
 
 	# dracut modules: 40ignition-conf
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-conf"
@@ -73,27 +73,20 @@ install:
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator"
 	install -m 0755 dracut/50remove-systemd-gpt-auto-generator/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator/module-setup.sh"
 
-	# dracut modules: 99emergency-shell-setup
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup"
-	install -m 0755 dracut/99emergency-shell-setup/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup/module-setup.sh"
-	install -m 0755 dracut/99emergency-shell-setup/emergency-shell.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup/emergency-shell.sh"
-	install -m 0644 dracut/99emergency-shell-setup/ignition-virtio-dump-journal.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup/ignition-virtio-dump-journal.service"
-	install -m 0755 dracut/99emergency-shell-setup/ignition-virtio-dump-journal.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99emergency-shell-setup/ignition-virtio-dump-journal.sh"
-
-	# dracut modules: 99journal-conf
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99journal-conf"
-	install -m 0755 dracut/99journal-conf/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99journal-conf/module-setup.sh"
-	install -m 0644 dracut/99journal-conf/00-journal-log-forwarding.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/99journal-conf/00-journal-log-forwarding.conf"
+	# dracut modules: 99ignition-journal-conf
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf"
+	install -m 0755 dracut/99ignition-journal-conf/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf/module-setup.sh"
+	install -m 0644 dracut/99ignition-journal-conf/00-journal-log-forwarding.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf/00-journal-log-forwarding.conf"
 
 	# systemd: generators
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system-generators"
-	install -m 0755 systemd/system-generators/coreos-sulogin-force-generator "$(DESTDIR)$(SYSTEMD_DIR)/system-generators/coreos-sulogin-force-generator"
+	install -m 0755 systemd/system-generators/ignition-sulogin-force-generator "$(DESTDIR)$(SYSTEMD_DIR)/system-generators/ignition-sulogin-force-generator"
 
 	# systemd: presets
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system-preset"
-	install -m 0644 systemd/system-preset/40-coreos-systemd.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-coreos-systemd.preset"
-	install -m 0644 systemd/system-preset/40-coreos.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-coreos.preset"
-	install -m 0644 systemd/system-preset/45-coreos-populate-lvmdevices.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/45-coreos-populate-lvmdevices.preset"
+	install -m 0644 systemd/system-preset/40-ignition-systemd.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-ignition-systemd.preset"
+	install -m 0644 systemd/system-preset/40-ignition.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-ignition.preset"
+	install -m 0644 systemd/system-preset/45-ignition-populate-lvmdevices.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/45-ignition-populate-lvmdevices.preset"
 
 	# systemd: units and drop-ins
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system"
@@ -117,13 +110,9 @@ install:
 	install -m 0755 scripts/libexec/coreos-ignition-write-issues "$(DESTDIR)$(EXEC_DIR)/coreos-ignition-write-issues"
 	install -m 0755 scripts/libexec/coreos-populate-lvmdevices "$(DESTDIR)$(EXEC_DIR)/coreos-populate-lvmdevices"
 
-	# coreos helpers
-	install -d "$(DESTDIR)$(LIBDIR)/coreos"
-	install -m 0644 coreos/generator-lib.sh "$(DESTDIR)$(LIBDIR)/coreos/generator-lib.sh"
-
 	# udev rules
 	install -d "$(DESTDIR)$(UDEV_RULES)"
-	install -m 0644 conf/udev/rules.d/90-coreos-device-mapper.rules "$(DESTDIR)$(UDEV_RULES)/90-coreos-device-mapper.rules"
+	install -m 0644 conf/udev/rules.d/90-ignition-device-mapper.rules "$(DESTDIR)$(UDEV_RULES)/90-ignition-device-mapper.rules"
 
 	# lvm devices
 	install -d "$(DESTDIR)/etc/lvm/devices"
@@ -132,10 +121,6 @@ install:
 	# tmpfiles
 	install -d "$(DESTDIR)/etc/tmpfiles.d"
 	install -m 0644 conf/tmpfiles.d/root-bash.conf "$(DESTDIR)/etc/tmpfiles.d/root-bash.conf"
-
-	# sshd config
-	install -d "$(DESTDIR)/etc/ssh/sshd_config.d"
-	install -m 0644 conf/sshd/40-authorized-keys-file.conf "$(DESTDIR)/etc/ssh/sshd_config.d/40-authorized-keys-file.conf"
 
 
 RPM_SPECFILE=rpmbuild/SPECS/ignition-integration-$(COMMIT).spec
