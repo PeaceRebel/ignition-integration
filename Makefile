@@ -110,10 +110,6 @@ install:
 	install -m 0755 scripts/libexec/coreos-ignition-write-issues "$(DESTDIR)$(EXEC_DIR)/coreos-ignition-write-issues"
 	install -m 0755 scripts/libexec/coreos-populate-lvmdevices "$(DESTDIR)$(EXEC_DIR)/coreos-populate-lvmdevices"
 
-	# coreos helpers
-	install -d "$(DESTDIR)$(LIBDIR)/coreos"
-	install -m 0644 coreos/generator-lib.sh "$(DESTDIR)$(LIBDIR)/coreos/generator-lib.sh"
-
 	# udev rules
 	install -d "$(DESTDIR)$(UDEV_RULES)"
 	install -m 0644 conf/udev/rules.d/90-coreos-device-mapper.rules "$(DESTDIR)$(UDEV_RULES)/90-coreos-device-mapper.rules"

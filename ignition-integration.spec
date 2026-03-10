@@ -88,8 +88,6 @@ scripts used to build bootc-based images.
 %{_libexecdir}/coreos-ignition-write-issues
 %{_libexecdir}/coreos-populate-lvmdevices
 
-/usr/lib/coreos/generator-lib.sh
-
 %{_udevrulesdir}/90-coreos-device-mapper.rules
 
 %config(noreplace) /etc/lvm/devices/system.devices
