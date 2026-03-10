@@ -64,11 +64,11 @@ scripts used to build bootc-based images.
 %{dracutlibdir}/modules.d/50remove-systemd-gpt-auto-generator
 %{dracutlibdir}/modules.d/99ignition-journal-conf
 
-%{_systemdgeneratordir}/coreos-sulogin-force-generator
+%{_systemdgeneratordir}/ignition-sulogin-force-generator
 
-%{_presetdir}/40-coreos-systemd.preset
-%{_presetdir}/40-coreos.preset
-%{_presetdir}/45-coreos-populate-lvmdevices.preset
+%{_presetdir}/40-ignition-systemd.preset
+%{_presetdir}/40-ignition.preset
+%{_presetdir}/45-ignition-populate-lvmdevices.preset
 
 %{_unitdir}/coreos-ignition-delete-config.service
 %{_unitdir}/coreos-ignition-firstboot-complete.service

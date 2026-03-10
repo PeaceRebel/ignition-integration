@@ -80,13 +80,13 @@ install:
 
 	# systemd: generators
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system-generators"
-	install -m 0755 systemd/system-generators/coreos-sulogin-force-generator "$(DESTDIR)$(SYSTEMD_DIR)/system-generators/coreos-sulogin-force-generator"
+	install -m 0755 systemd/system-generators/ignition-sulogin-force-generator "$(DESTDIR)$(SYSTEMD_DIR)/system-generators/ignition-sulogin-force-generator"
 
 	# systemd: presets
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system-preset"
-	install -m 0644 systemd/system-preset/40-coreos-systemd.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-coreos-systemd.preset"
-	install -m 0644 systemd/system-preset/40-coreos.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-coreos.preset"
-	install -m 0644 systemd/system-preset/45-coreos-populate-lvmdevices.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/45-coreos-populate-lvmdevices.preset"
+	install -m 0644 systemd/system-preset/40-ignition-systemd.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-ignition-systemd.preset"
+	install -m 0644 systemd/system-preset/40-ignition.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-ignition.preset"
+	install -m 0644 systemd/system-preset/45-ignition-populate-lvmdevices.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/45-ignition-populate-lvmdevices.preset"
 
 	# systemd: units and drop-ins
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system"
