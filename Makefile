@@ -73,10 +73,10 @@ install:
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator"
 	install -m 0755 dracut/50remove-systemd-gpt-auto-generator/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator/module-setup.sh"
 
-	# dracut modules: 99journal-conf
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99journal-conf"
-	install -m 0755 dracut/99journal-conf/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99journal-conf/module-setup.sh"
-	install -m 0644 dracut/99journal-conf/00-journal-log-forwarding.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/99journal-conf/00-journal-log-forwarding.conf"
+	# dracut modules: 99ignition-journal-conf
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf"
+	install -m 0755 dracut/99ignition-journal-conf/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf/module-setup.sh"
+	install -m 0644 dracut/99ignition-journal-conf/00-journal-log-forwarding.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf/00-journal-log-forwarding.conf"
 
 	# systemd: generators
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system-generators"
