@@ -56,12 +56,12 @@ install:
 	install -m 0755 dracut/50rdcore/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore/module-setup.sh"
 	install -m 0755 dracut/50rdcore/rdcore "$(DESTDIR)$(DRACUT_DIR)/modules.d/50rdcore/rdcore"
 
-	# dracut modules: 35coreos-network
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network"
-	install -m 0755 dracut/35coreos-network/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/module-setup.sh"
-	install -m 0644 dracut/35coreos-network/50-afterburn-network-kargs-default.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/50-afterburn-network-kargs-default.conf"
-	install -m 0644 dracut/35coreos-network/coreos-enable-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/coreos-enable-network.service"
-	install -m 0755 dracut/35coreos-network/coreos-enable-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35coreos-network/coreos-enable-network.sh"
+	# dracut modules: 35ignition-network
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network"
+	install -m 0755 dracut/35ignition-network/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/module-setup.sh"
+	install -m 0644 dracut/35ignition-network/50-afterburn-network-kargs-default.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/50-afterburn-network-kargs-default.conf"
+	install -m 0644 dracut/35ignition-network/ignition-enable-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/ignition-enable-network.service"
+	install -m 0755 dracut/35ignition-network/ignition-enable-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/ignition-enable-network.sh"
 
 	# dracut modules: 40ignition-conf
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-conf"
