@@ -92,7 +92,6 @@ scripts used to build bootc-based images.
 
 %config(noreplace) /etc/lvm/devices/system.devices
 %config(noreplace) /etc/tmpfiles.d/root-bash.conf
-%config(noreplace) /etc/ssh/sshd_config.d/40-authorized-keys-file.conf
 
 %changelog
 * Fri Mar 06 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.3.0-1

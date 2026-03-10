@@ -122,10 +122,6 @@ install:
 	install -d "$(DESTDIR)/etc/tmpfiles.d"
 	install -m 0644 conf/tmpfiles.d/root-bash.conf "$(DESTDIR)/etc/tmpfiles.d/root-bash.conf"
 
-	# sshd config
-	install -d "$(DESTDIR)/etc/ssh/sshd_config.d"
-	install -m 0644 conf/sshd/40-authorized-keys-file.conf "$(DESTDIR)/etc/ssh/sshd_config.d/40-authorized-keys-file.conf"
-
 
 RPM_SPECFILE=rpmbuild/SPECS/ignition-integration-$(COMMIT).spec
 RPM_TARBALL=rpmbuild/SOURCES/ignition-integration-$(COMMIT).tar.gz
