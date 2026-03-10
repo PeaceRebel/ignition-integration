@@ -112,7 +112,7 @@ install:
 
 	# udev rules
 	install -d "$(DESTDIR)$(UDEV_RULES)"
-	install -m 0644 conf/udev/rules.d/90-coreos-device-mapper.rules "$(DESTDIR)$(UDEV_RULES)/90-coreos-device-mapper.rules"
+	install -m 0644 conf/udev/rules.d/90-ignition-device-mapper.rules "$(DESTDIR)$(UDEV_RULES)/90-ignition-device-mapper.rules"
 
 	# lvm devices
 	install -d "$(DESTDIR)/etc/lvm/devices"

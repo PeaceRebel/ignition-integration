@@ -88,7 +88,7 @@ scripts used to build bootc-based images.
 %{_libexecdir}/coreos-ignition-write-issues
 %{_libexecdir}/coreos-populate-lvmdevices
 
-%{_udevrulesdir}/90-coreos-device-mapper.rules
+%{_udevrulesdir}/90-ignition-device-mapper.rules
 
 %config(noreplace) /etc/lvm/devices/system.devices
 %config(noreplace) /etc/tmpfiles.d/root-bash.conf
