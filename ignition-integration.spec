@@ -60,7 +60,6 @@ scripts used to build bootc-based images.
 %{dracutlibdir}/modules.d/40ignition-ostree
 %{dracutlibdir}/modules.d/50ignition-rdcore
 %{dracutlibdir}/modules.d/35ignition-network
-%{dracutlibdir}/modules.d/40ignition-conf
 %{dracutlibdir}/modules.d/50remove-systemd-gpt-auto-generator
 %{dracutlibdir}/modules.d/99ignition-journal-conf
 
