@@ -26,4 +26,4 @@ Before=dracut-initqueue.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/sbin/coreos-enable-network
+ExecStart=/usr/sbin/ignition-enable-network
