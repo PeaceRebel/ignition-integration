@@ -2,7 +2,7 @@
 %global forgeurl https://github.com/PeaceRebel/ignition-integration
 %global debug_package %{nil}
 
-Version:        0.2.0
+Version:        0.4.0
 
 %forgemeta -v -i
 
@@ -93,6 +93,13 @@ scripts used to build bootc-based images.
 %config(noreplace) /etc/tmpfiles.d/root-bash.conf
 
 %changelog
+* Tue Mar 17 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.4.0-1
+- Rename modules with prefix ignition
+- Remove sshd config as it's part of ignition main package now
+- Remove dracut module for base config
+- Include rdcore only if it's not installed by coreos-installer
+- Fix script name in 35ignition-network
+- Omit 01ignition-scsi-rules and 99ignition-journal-conf from kdump
 * Fri Mar 06 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.3.0-1
 - Remove 99emergency-shell-setup dracut module
 * Wed Feb 04 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.2.0-1
