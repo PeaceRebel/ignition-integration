@@ -63,12 +63,6 @@ install:
 	install -m 0644 dracut/35ignition-network/ignition-enable-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/ignition-enable-network.service"
 	install -m 0755 dracut/35ignition-network/ignition-enable-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/ignition-enable-network.sh"
 
-	# dracut modules: 40ignition-conf
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-conf"
-	install -m 0644 dracut/40ignition-conf/00-core.ign "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-conf/00-core.ign"
-	install -m 0755 dracut/40ignition-conf/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-conf/module-setup.sh"
-	install -m 0644 dracut/40ignition-conf/README.md "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-conf/README.md"
-
 	# dracut modules: 50remove-systemd-gpt-auto-generator
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator"
 	install -m 0755 dracut/50remove-systemd-gpt-auto-generator/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator/module-setup.sh"
