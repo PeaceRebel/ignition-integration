@@ -51,11 +51,6 @@ install:
 	install -m 0644 dracut/35ignition-helpers/coreos-kargs-reboot.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-helpers/coreos-kargs-reboot.service"
 	install -m 0755 dracut/35ignition-helpers/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-helpers/module-setup.sh"
 
-	# dracut modules: 50ignition-rdcore
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50ignition-rdcore"
-	install -m 0755 dracut/50ignition-rdcore/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50ignition-rdcore/module-setup.sh"
-	install -m 0755 dracut/50ignition-rdcore/rdcore "$(DESTDIR)$(DRACUT_DIR)/modules.d/50ignition-rdcore/rdcore"
-
 	# dracut modules: 35ignition-network
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network"
 	install -m 0755 dracut/35ignition-network/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/module-setup.sh"
