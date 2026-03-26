@@ -2,7 +2,7 @@
 %global forgeurl https://github.com/PeaceRebel/ignition-integration
 %global debug_package %{nil}
 
-Version:        0.4.0
+Version:        0.5.0
 
 %forgemeta -v -i
 
@@ -91,6 +91,11 @@ scripts used to build bootc-based images.
 %config(noreplace) /etc/tmpfiles.d/root-bash.conf
 
 %changelog
+* Thu Mar 26 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.5.0-1
+- Remove rdcore and other distro/coreos-specific dependencies and references
+- Remove rdcore usage from scripts
+- Drop rdcore dependency from the 40ignition-ostree dracut module
+- Remove ignition-helpers dracut module as distro-specific content
 * Tue Mar 17 2026 Bipin B Narayan <bbnaraya@redhat.com> - 0.4.0-1
 - Rename modules with prefix ignition
 - Remove sshd config as it's part of ignition main package now
