@@ -9,14 +9,7 @@ check() {
 }
 
 depends() {
-    RDCORE_MODULE_NAME="ignition-rdcore"
-
-    # If rdcore is installed by coreos-installer package, use that.
-    if test -d /usr/lib/dracut/modules.d/50rdcore; then
-        RDCORE_MODULE_NAME="rdcore"
-    fi
-
-    echo ignition $RDCORE_MODULE_NAME
+    echo ignition
 }
 
 install_ignition_unit() {
