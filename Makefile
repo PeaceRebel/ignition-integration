@@ -1,3 +1,4 @@
+SRCDIR ?= .
 COMMIT = $(shell (cd "$(SRCDIR)" && git rev-parse HEAD))
 
 .PHONY: all
@@ -15,96 +16,48 @@ EXEC_DIR      ?= /usr/libexec
 install:
 	# dracut config
 	install -d "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d"
-	install -m 0644 dracut/dracut.conf.d/60-ignition-nostrip.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-ignition-nostrip.conf"
 	install -m 0644 dracut/dracut.conf.d/60-omit-nfs.conf "$(DESTDIR)$(DRACUT_DIR)/dracut.conf.d/60-omit-nfs.conf"
 
 	# dracut modules: 01ignition-scsi-rules
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/01ignition-scsi-rules"
-	install -m 0755 dracut/01ignition-scsi-rules/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/01ignition-scsi-rules/module-setup.sh"
+	install -m 0755 dracut/modules.d/01ignition-scsi-rules/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/01ignition-scsi-rules/module-setup.sh"
 
 	# dracut modules: 40ignition-ostree
 	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree"
-	install -m 0755 dracut/40ignition-ostree/coreos-check-rootfs-size "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/coreos-check-rootfs-size"
-	install -m 0755 dracut/40ignition-ostree/coreos-relabel "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/coreos-relabel"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-check-rootfs-size.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-check-rootfs-size.service"
-	install -m 0755 dracut/40ignition-ostree/ignition-ostree-firstboot-uuid "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-firstboot-uuid"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-growfs.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-growfs.service"
-	install -m 0755 dracut/40ignition-ostree/ignition-ostree-growfs.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-growfs.sh"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-mount-state-overlays.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-mount-state-overlays.service"
-	install -m 0755 dracut/40ignition-ostree/ignition-ostree-mount-state-overlays.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-mount-state-overlays.sh"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-mount-var.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-mount-var.service"
-	install -m 0755 dracut/40ignition-ostree/ignition-ostree-mount-var.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-mount-var.sh"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-populate-var.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-populate-var.service"
-	install -m 0755 dracut/40ignition-ostree/ignition-ostree-populate-var.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-populate-var.sh"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-transposefs-autosave-xfs.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs-autosave-xfs.service"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-transposefs-detect.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs-detect.service"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-transposefs-restore.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs-restore.service"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-transposefs-save.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs-save.service"
-	install -m 0755 dracut/40ignition-ostree/ignition-ostree-transposefs.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs.sh"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-uuid-boot.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-uuid-boot.service"
-	install -m 0644 dracut/40ignition-ostree/ignition-ostree-uuid-root.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-uuid-root.service"
-	install -m 0755 dracut/40ignition-ostree/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/module-setup.sh"
+	install -m 0755 dracut/modules.d/40ignition-ostree/ignition-relabel "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-relabel"
+	install -m 0644 dracut/modules.d/40ignition-ostree/ignition-ostree-mount-var.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-mount-var.service"
+	install -m 0755 dracut/modules.d/40ignition-ostree/ignition-ostree-mount-var.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-mount-var.sh"
+	install -m 0644 dracut/modules.d/40ignition-ostree/ignition-ostree-populate-var.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-populate-var.service"
+	install -m 0755 dracut/modules.d/40ignition-ostree/ignition-ostree-populate-var.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-populate-var.sh"
+	install -m 0644 dracut/modules.d/40ignition-ostree/ignition-ostree-transposefs-detect.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs-detect.service"
+	install -m 0644 dracut/modules.d/40ignition-ostree/ignition-ostree-transposefs-restore.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs-restore.service"
+	install -m 0644 dracut/modules.d/40ignition-ostree/ignition-ostree-transposefs-save.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs-save.service"
+	install -m 0755 dracut/modules.d/40ignition-ostree/ignition-ostree-transposefs.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/ignition-ostree-transposefs.sh"
+	install -m 0755 dracut/modules.d/40ignition-ostree/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/40ignition-ostree/module-setup.sh"
 
-	# dracut modules: 35ignition-network
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network"
-	install -m 0755 dracut/35ignition-network/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/module-setup.sh"
-	install -m 0644 dracut/35ignition-network/50-afterburn-network-kargs-default.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/50-afterburn-network-kargs-default.conf"
-	install -m 0644 dracut/35ignition-network/ignition-enable-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/ignition-enable-network.service"
-	install -m 0755 dracut/35ignition-network/ignition-enable-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/35ignition-network/ignition-enable-network.sh"
+	# dracut modules: 41ignition-network
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/41ignition-network"
+	install -m 0755 dracut/modules.d/41ignition-network/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/41ignition-network/module-setup.sh"
+	install -m 0644 dracut/modules.d/41ignition-network/ignition-enable-network.service "$(DESTDIR)$(DRACUT_DIR)/modules.d/41ignition-network/ignition-enable-network.service"
+	install -m 0755 dracut/modules.d/41ignition-network/ignition-enable-network.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/41ignition-network/ignition-enable-network.sh"
 
-	# dracut modules: 50remove-systemd-gpt-auto-generator
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator"
-	install -m 0755 dracut/50remove-systemd-gpt-auto-generator/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/50remove-systemd-gpt-auto-generator/module-setup.sh"
-
-	# dracut modules: 99ignition-journal-conf
-	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf"
-	install -m 0755 dracut/99ignition-journal-conf/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf/module-setup.sh"
-	install -m 0644 dracut/99ignition-journal-conf/00-journal-log-forwarding.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-journal-conf/00-journal-log-forwarding.conf"
-
-	# systemd: generators
-	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system-generators"
-	install -m 0755 systemd/system-generators/ignition-sulogin-force-generator "$(DESTDIR)$(SYSTEMD_DIR)/system-generators/ignition-sulogin-force-generator"
+	# dracut modules: 99ignition-log-kmsg
+	install -d "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-log-kmsg"
+	install -m 0755 dracut/modules.d/99ignition-log-kmsg/module-setup.sh "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-log-kmsg/module-setup.sh"
+	install -m 0644 dracut/modules.d/99ignition-log-kmsg/00-journal-log-level-kmsg.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-log-kmsg/00-journal-log-level-kmsg.conf"
+	install -m 0644 dracut/modules.d/99ignition-log-kmsg/10-stdout-kmsg.conf "$(DESTDIR)$(DRACUT_DIR)/modules.d/99ignition-log-kmsg/10-stdout-kmsg.conf"
 
 	# systemd: presets
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system-preset"
-	install -m 0644 systemd/system-preset/40-ignition-systemd.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-ignition-systemd.preset"
 	install -m 0644 systemd/system-preset/40-ignition.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/40-ignition.preset"
-	install -m 0644 systemd/system-preset/45-ignition-populate-lvmdevices.preset "$(DESTDIR)$(SYSTEMD_DIR)/system-preset/45-ignition-populate-lvmdevices.preset"
 
 	# systemd: units and drop-ins
 	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system"
-	install -m 0644 systemd/system/coreos-ignition-delete-config.service "$(DESTDIR)$(SYSTEMD_DIR)/system/coreos-ignition-delete-config.service"
-	install -m 0644 systemd/system/coreos-ignition-firstboot-complete.service "$(DESTDIR)$(SYSTEMD_DIR)/system/coreos-ignition-firstboot-complete.service"
-	install -m 0644 systemd/system/coreos-ignition-write-issues.service "$(DESTDIR)$(SYSTEMD_DIR)/system/coreos-ignition-write-issues.service"
-	install -m 0644 systemd/system/coreos-populate-lvmdevices.service "$(DESTDIR)$(SYSTEMD_DIR)/system/coreos-populate-lvmdevices.service"
-	install -m 0644 systemd/system/coreos-printk-quiet.service "$(DESTDIR)$(SYSTEMD_DIR)/system/coreos-printk-quiet.service"
-	install -m 0644 systemd/system/coreos-update-ca-trust.service "$(DESTDIR)$(SYSTEMD_DIR)/system/coreos-update-ca-trust.service"
-	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system/ignition-delete-config.service.d"
-	install -m 0644 systemd/system/ignition-delete-config.service.d/10-flag-file.conf "$(DESTDIR)$(SYSTEMD_DIR)/system/ignition-delete-config.service.d/10-flag-file.conf"
-	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system/systemd-backlight@.service.d"
-	install -m 0644 systemd/system/systemd-backlight@.service.d/45-after-ostree-remount.conf "$(DESTDIR)$(SYSTEMD_DIR)/system/systemd-backlight@.service.d/45-after-ostree-remount.conf"
-	install -d "$(DESTDIR)$(SYSTEMD_DIR)/system/systemd-firstboot.service.d"
-	install -m 0644 systemd/system/systemd-firstboot.service.d/fcos-disable.conf "$(DESTDIR)$(SYSTEMD_DIR)/system/systemd-firstboot.service.d/fcos-disable.conf"
+	install -m 0644 systemd/ignition-write-issues.service "$(DESTDIR)$(SYSTEMD_DIR)/system/ignition-write-issues.service"
 
 	# libexec helpers
 	install -d "$(DESTDIR)$(EXEC_DIR)"
-	install -m 0755 scripts/libexec/coreos-ignition-delete-config "$(DESTDIR)$(EXEC_DIR)/coreos-ignition-delete-config"
-	install -m 0755 scripts/libexec/coreos-ignition-firstboot-complete "$(DESTDIR)$(EXEC_DIR)/coreos-ignition-firstboot-complete"
-	install -m 0755 scripts/libexec/coreos-ignition-write-issues "$(DESTDIR)$(EXEC_DIR)/coreos-ignition-write-issues"
-	install -m 0755 scripts/libexec/coreos-populate-lvmdevices "$(DESTDIR)$(EXEC_DIR)/coreos-populate-lvmdevices"
-
-	# udev rules
-	install -d "$(DESTDIR)$(UDEV_RULES)"
-	install -m 0644 conf/udev/rules.d/90-ignition-device-mapper.rules "$(DESTDIR)$(UDEV_RULES)/90-ignition-device-mapper.rules"
-
-	# lvm devices
-	install -d "$(DESTDIR)/etc/lvm/devices"
-	install -m 0644 conf/lvm/devices/system.devices "$(DESTDIR)/etc/lvm/devices/system.devices"
-
-	# tmpfiles
-	install -d "$(DESTDIR)/etc/tmpfiles.d"
-	install -m 0644 conf/tmpfiles.d/root-bash.conf "$(DESTDIR)/etc/tmpfiles.d/root-bash.conf"
-
+	install -m 0755 scripts/libexec/ignition-write-issues "$(DESTDIR)$(EXEC_DIR)/ignition-write-issues"
 
 RPM_SPECFILE=rpmbuild/SPECS/ignition-integration-$(COMMIT).spec
 RPM_TARBALL=rpmbuild/SOURCES/ignition-integration-$(COMMIT).tar.gz
