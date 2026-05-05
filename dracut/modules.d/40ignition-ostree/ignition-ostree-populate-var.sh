@@ -35,5 +35,5 @@ for varsubdir in lib log home roothome opt srv usrlocal mnt media; do
         systemd-tmpfiles --create --boot --root=/sysroot --prefix="/var/${varsubdir}"
     fi
 
-    coreos-relabel "/var/${varsubdir}"
+    ignition-relabel "/var/${varsubdir}"
 done

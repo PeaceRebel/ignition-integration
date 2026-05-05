@@ -2,10 +2,18 @@ check() {
     if [[ $IN_KDUMP == 1 ]]; then
         return 1
     fi
+
+    # This module will only work with NetworkManager now.
+    # We might add support for other later.
+    if dracut_module_included "network-manager"; then
+        return 0
+    fi
+
+    return 1
 }
 
 depends() {
-    echo afterburn
+    echo network
 }
 
 install_and_enable_unit() {
@@ -22,10 +30,4 @@ install() {
         "/usr/sbin/ignition-enable-network"
     install_and_enable_unit "ignition-enable-network.service" \
         "ignition-complete.target"
-
-    # Dropin with firstboot network configuration kargs, applied via
-    # Afterburn.
-    inst_simple "$moddir/50-afterburn-network-kargs-default.conf" \
-        "/usr/lib/systemd/system/afterburn-network-kargs.service.d/50-afterburn-network-kargs-default.conf"
-
 }

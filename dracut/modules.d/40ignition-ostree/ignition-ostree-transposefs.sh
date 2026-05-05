@@ -54,7 +54,6 @@ mount_verbose() {
     mount -o "${mode}" "${srcdev}" "${destdir}"
 }
 
-# A copy of this exists in ignition-ostree-growfs.sh.
 # Sometimes, for some reason the by-label symlinks aren't updated. Detect these
 # cases, and explicitly `udevadm trigger`.
 # See: https://bugzilla.redhat.com/show_bug.cgi?id=1908780
@@ -129,36 +128,6 @@ mount_and_save_filesystem_by_label() {
     fi
 }
 
-# This implements https://github.com/coreos/fedora-coreos-tracker/issues/1183.
-should_autosave_rootfs() {
-    local fstype
-    fstype=$(lsblk -no FSTYPE "${root_part}")
-    if [ "$fstype" != xfs ]; then
-        echo "Filesystem is not XFS (found $fstype); skipping" >&2
-        echo 0
-        return
-    fi
-    local agcount
-    # This runs xfs_info on the unmounted filesystem, because mounting an
-    # XFS filesystem that has grown an excessive number of allocation groups
-    # can be very slow.
-    eval $(xfs_info "${root_part}" | grep -o 'agcount=[0-9]*')
-    # This is roughly ~700GiB currently (based on initial ag sizing at build time)
-    # which ensures we grow only on "large" root filesystems.
-    # Specifically for e.g. OpenShift, this ensures we don't reprovision on default
-    # worker node root filesystems.
-    local threshold
-    threshold=400
-    if [ "$agcount" -lt "${threshold}" ]; then
-        echo "autosave-xfs: ${root_part} agcount=$agcount is lower than threshold=${threshold}" >&2
-        echo 0
-        return
-    else
-        echo "autosave-xfs: ${root_part} agcount=$agcount meets threshold=${threshold}" >&2
-        echo 1
-    fi
-}
-
 ensure_zram_dev() {
     if test -d "${saved_data}"; then
         return 0
@@ -193,24 +162,6 @@ print_zram_mm_stat() {
     read dev < "${zram_dev}"
     cat /sys/block/zram"${dev}"/mm_stat
 }
-
-# In Secure Execution case user is not allowed to modify partition table
-check_and_set_secex_config() {
-    if [[ -f /run/coreos/secure-execution ]]; then
-        local wr=$(jq "$(query_fslabel root) | length" "${ignition_cfg}")
-        local wb=$(jq "$(query_fslabel boot) | length" "${ignition_cfg}")
-        if [ "${wr}${wb}" != "00" ]; then
-            echo "Modifying bootfs and rootfs is not supported in Secure Execution mode"
-            exit 1
-        fi
-        # Cached config isn't merged, so reset it and recheck again, just to make sure
-        ignition_cfg=/usr/lib/ignition/base.d/01-secex.ign
-    fi
-}
-
-# We could have done this during 'detect' below, but other cases also request
-# info from config, so just check cached one and reset to secex.ign now
-check_and_set_secex_config
 
 case "${1:-}" in
     detect)
@@ -249,23 +200,6 @@ case "${1:-}" in
         fi
         if [ "${creates_prep}" != "0" ]; then
             mkdir "${saved_prep}"
-        fi
-        ;;
-    autosave-xfs)
-        should_autosave=$(should_autosave_rootfs)
-        if [ "${should_autosave}" = "1" ]; then
-            wipes_root=1
-            ensure_zram_dev
-            # in the in-place reprovisioning case, the rootfs was already saved
-            if [ ! -d "${saved_root}" ]; then
-                mkdir "${saved_root}"
-                echo "Moving rootfs to RAM..."
-                mount_and_save_filesystem_by_label root "${saved_root}"
-                print_zram_mm_stat
-            fi
-            mkfs.xfs "${root_part}" -L root -f
-            # for tests
-            touch /run/ignition-ostree-autosaved-xfs.stamp
         fi
         ;;
     save)

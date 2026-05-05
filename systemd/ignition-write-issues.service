@@ -9,7 +9,7 @@ ConditionPathExists=/etc/.ignition-result.json
 
 [Service]
 Type=oneshot
-ExecStart=/usr/libexec/coreos-ignition-write-issues
+ExecStart=/usr/libexec/ignition-write-issues
 RemainAfterExit=yes
 
 [Install]
